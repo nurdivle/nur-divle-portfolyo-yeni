@@ -235,8 +235,11 @@ export function normalizeSiteConfig(value: unknown): SiteConfig {
   const navItems = Array.isArray(profile.navItems) ? profile.navItems.filter((item): item is NavItem => Boolean(item && typeof item.label === "string" && typeof item.href === "string" && item.label.trim() && item.href.trim())).slice(0, 12).map(item => {
     const label = item.label.trim();
     const requestedPath = item.href.trim();
-    const href = requestedPath.toLowerCase() === "/anasayfa" ? "/" : (requestedPath.startsWith("/") && /^\/[a-z0-9-]+$/i.test(requestedPath) ? requestedPath.toLowerCase() : toMenuPath(requestedPath.replace(/^\//, "") || label));
-    return { label, href, autoPage: item.autoPage === true };
+    const normalizedRequestedPath = requestedPath.toLocaleLowerCase("tr-TR");
+    const normalizedLabel = label.toLocaleLowerCase("tr-TR").replace(/\s+/g, " ");
+    const isHome = normalizedRequestedPath === "/" || normalizedRequestedPath === "/anasayfa" || normalizedRequestedPath === "/ana-sayfa" || normalizedRequestedPath === "/home" || normalizedLabel === "ana sayfa" || normalizedLabel === "anasayfa" || normalizedLabel === "home";
+    const href = isHome ? "/" : (requestedPath.startsWith("/") && /^\/[a-z0-9-]+$/i.test(requestedPath) ? requestedPath.toLowerCase() : toMenuPath(requestedPath.replace(/^\//, "") || label));
+    return { label, href, autoPage: isHome ? false : item.autoPage === true };
   }) : defaultSiteConfig.navItems;
   const savedCustomPages = Array.isArray(profile.customPages) ? profile.customPages : [];
   const customPages: CustomPage[] = navItems
