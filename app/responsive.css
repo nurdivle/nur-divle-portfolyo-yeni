@@ -1,0 +1,57 @@
+/* Ekran boyutu ne olursa olsun içerik taşmasını engelleyen ortak düzenler. */
+html,body{max-width:100%;overflow-x:hidden}
+.portfolio,.detail-page{max-width:100%;overflow:hidden}
+
+@media(max-width:1024px){
+  .portfolio .topbar{padding-left:28px;padding-right:28px}
+  .portfolio .hero-new{grid-template-columns:minmax(0,1fr) minmax(310px,40vw);padding-left:38px;padding-right:38px;gap:12px}
+  .portfolio .hero-new h1{font-size:clamp(58px,8vw,72px)}
+  .portfolio .hero-person{width:min(100%,390px);height:470px}
+  .portfolio .project-card>p{min-height:0}
+  .portfolio footer{padding-left:28px;padding-right:28px}
+}
+
+@media(max-width:780px){
+  .portfolio .topbar{display:flex!important;height:auto;min-height:72px;flex-wrap:wrap;align-items:center;padding:14px max(22px,env(safe-area-inset-right)) 14px max(22px,env(safe-area-inset-left));gap:9px 18px}
+  .portfolio .wordmark{font-size:22px}
+  .portfolio .topbar nav{order:3;width:100%;justify-content:flex-start;gap:18px!important;overflow-x:auto;padding:2px 0 7px;scrollbar-width:thin}
+  .portfolio .topbar nav a{font-size:13px;flex:0 0 auto}
+  .portfolio .wordmark,.portfolio .topbar nav,.portfolio .hero-copy-new,.portfolio .hero-person,.portfolio .projects-section,.portfolio .feature-grid,.portfolio .contact-band{transform:none!important}
+  .portfolio .hero-new{display:block;min-height:0;padding:46px 28px 0}
+  .portfolio .hero-copy-new{max-width:590px}
+  .portfolio .hero-person{width:min(100%,440px);height:430px;margin:18px auto 0}
+  .portfolio .feature-grid{grid-template-columns:1fr;gap:16px;padding-left:28px;padding-right:28px}
+  .portfolio .contact-band{margin-left:28px;margin-right:28px}
+  .portfolio footer{display:grid;grid-template-columns:1fr 1fr;align-items:start;gap:18px 24px;padding-top:22px}
+  .portfolio .socials{margin-left:0}
+  .detail-header{height:auto;min-height:72px;display:flex;flex-wrap:wrap;align-items:center;padding:14px max(22px,env(safe-area-inset-right)) 14px max(22px,env(safe-area-inset-left));gap:9px 18px}
+  .detail-wordmark{font-size:22px}
+  .detail-header nav{width:100%;justify-content:flex-start;gap:18px;overflow-x:auto;padding:2px 0 7px;scrollbar-width:thin}
+  .detail-header nav a{font-size:13px;flex:0 0 auto}
+  .detail-wordmark,.detail-header nav{transform:none!important}
+  .detail-content{width:min(100% - 40px,1120px)}
+}
+
+@media(max-width:520px){
+  .portfolio .topbar{padding-left:max(18px,env(safe-area-inset-left));padding-right:max(18px,env(safe-area-inset-right))}
+  .portfolio .topbar nav{gap:16px!important}
+  .portfolio .hero-new{padding:38px 18px 0}
+  .portfolio .hero-new h1{font-size:clamp(46px,15vw,58px)}
+  .portfolio .roles{font-size:15px;line-height:1.55}
+  .portfolio .hero-ctas{gap:10px}
+  .portfolio .hero-person{height:380px;width:100%}
+  .portfolio .projects-section{padding-left:18px;padding-right:18px}
+  .portfolio .section-title-row{align-items:flex-start;gap:12px}
+  .portfolio .section-title-row h2{font-size:20px}
+  .portfolio .feature-grid{padding-left:18px;padding-right:18px}
+  .portfolio .skill-grid{grid-template-columns:repeat(3,1fr);gap:18px 10px}
+  .portfolio .method-grid{grid-template-columns:1fr;gap:12px}
+  .portfolio .contact-band{margin-left:18px;margin-right:18px;padding:18px}
+  .portfolio footer{display:block;padding-left:18px;padding-right:18px}
+  .portfolio footer>a,.portfolio footer>p{overflow-wrap:anywhere}
+  .portfolio .socials{margin-top:18px}
+  .detail-header{padding-left:max(18px,env(safe-area-inset-left));padding-right:max(18px,env(safe-area-inset-right))}
+  .detail-content{width:calc(100% - 32px)}
+  .detail-hero h1{font-size:clamp(38px,13vw,52px)}
+  .detail-card{padding:20px}
+}
