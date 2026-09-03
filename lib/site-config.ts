@@ -8,7 +8,17 @@ export type Project = {
 };
 
 export type NavItem = { label: string; href: string; autoPage?: boolean };
-export type CustomPage = { slug: string; title: string; content: string };
+export type CustomPage = {
+  slug: string;
+  title: string;
+  content: string;
+  titleX: number;
+  titleY: number;
+  contentX: number;
+  contentY: number;
+  contentWidth: number;
+  textAlign: "left" | "center" | "right";
+};
 export type ResumeEntry = {
   title: string;
   organization: string;
@@ -229,7 +239,7 @@ export function normalizeSiteConfig(value: unknown): SiteConfig {
     return { label, href, autoPage: item.autoPage === true };
   }) : defaultSiteConfig.navItems;
   const savedCustomPages = Array.isArray(profile.customPages) ? profile.customPages : [];
-  const customPages = navItems
+  const customPages: CustomPage[] = navItems
     .filter(item => !builtInPaths.has(item.href) && !isProjectMenu(item))
     .map(item => {
       const slug = item.href.slice(1);
@@ -238,6 +248,12 @@ export function normalizeSiteConfig(value: unknown): SiteConfig {
         slug,
         title: typeof saved?.title === "string" && saved.title.trim() ? saved.title.slice(0, 160) : item.label,
         content: typeof saved?.content === "string" ? saved.content.slice(0, 4_000) : "Bu sayfanın içeriğini yönetim panelinden güncelleyebilirsin.",
+        titleX: typeof saved?.titleX === "number" ? Math.max(-240, Math.min(240, saved.titleX)) : 0,
+        titleY: typeof saved?.titleY === "number" ? Math.max(-160, Math.min(160, saved.titleY)) : 0,
+        contentX: typeof saved?.contentX === "number" ? Math.max(-240, Math.min(240, saved.contentX)) : 0,
+        contentY: typeof saved?.contentY === "number" ? Math.max(-160, Math.min(160, saved.contentY)) : 0,
+        contentWidth: typeof saved?.contentWidth === "number" ? Math.max(320, Math.min(1100, saved.contentWidth)) : 760,
+        textAlign: saved?.textAlign === "center" || saved?.textAlign === "right" ? saved.textAlign : "left",
       };
     });
   return {
