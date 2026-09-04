@@ -3,6 +3,8 @@ export type Project = {
   text: string;
   tags: string[];
   shot: "samarya" | "emlak" | "data";
+  imageUrl?: string;
+  imageName?: string;
   liveUrl: string;
   detailUrl: string;
 };
@@ -298,7 +300,7 @@ export function normalizeSiteConfig(value: unknown): SiteConfig {
       headerAlign: profile.layout?.headerAlign === "flex-start" || profile.layout?.headerAlign === "center" || profile.layout?.headerAlign === "space-between" ? profile.layout.headerAlign : defaultSiteConfig.layout.headerAlign,
       sectionOrder: Array.isArray(profile.layout?.sectionOrder) && profile.layout.sectionOrder.length === 4 && profile.layout.sectionOrder.every(item => item === "hero" || item === "projects" || item === "features" || item === "contact") ? profile.layout.sectionOrder : defaultSiteConfig.layout.sectionOrder,
     },
-    projects: Array.isArray(profile.projects) ? profile.projects.filter((item): item is Project => Boolean(item && typeof item.title === "string" && typeof item.text === "string")).slice(0, 12).map(item => ({ title: item.title.slice(0, 160), text: item.text.slice(0, 1_000), tags: Array.isArray(item.tags) ? item.tags.filter((tag): tag is string => typeof tag === "string").slice(0, 12) : [], shot: item.shot === "samarya" || item.shot === "emlak" || item.shot === "data" ? item.shot : "data", liveUrl: typeof item.liveUrl === "string" ? item.liveUrl.slice(0, 1_000) : "", detailUrl: typeof item.detailUrl === "string" ? item.detailUrl.slice(0, 1_000) : "" })) : defaultSiteConfig.projects,
+    projects: Array.isArray(profile.projects) ? profile.projects.filter((item): item is Project => Boolean(item && typeof item.title === "string" && typeof item.text === "string")).slice(0, 12).map(item => ({ title: item.title.slice(0, 160), text: item.text.slice(0, 1_000), tags: Array.isArray(item.tags) ? item.tags.filter((tag): tag is string => typeof tag === "string").slice(0, 12) : [], shot: item.shot === "samarya" || item.shot === "emlak" || item.shot === "data" ? item.shot : "data", imageUrl: safeAttachment(item.imageUrl), imageName: typeof item.imageName === "string" ? item.imageName.slice(0, 160) : "", liveUrl: typeof item.liveUrl === "string" ? item.liveUrl.slice(0, 1_000) : "", detailUrl: typeof item.detailUrl === "string" ? item.detailUrl.slice(0, 1_000) : "" })) : defaultSiteConfig.projects,
     education: resumeEntries(profile.education, defaultSiteConfig.education),
     experience: resumeEntries(profile.experience, defaultSiteConfig.experience),
     certificates: certificates(profile.certificates),
