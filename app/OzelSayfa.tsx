@@ -2,7 +2,7 @@
 
 import { useEffect, useState, type CSSProperties } from "react";
 import Link from "next/link";
-import { defaultSiteConfig, normalizeSiteConfig, type SiteConfig } from "../lib/site-config";
+import { defaultSiteConfig, type SiteConfig } from "../lib/site-config";
 import { localizeSiteConfig, type Locale, ui } from "../lib/i18n";
 import LanguageToggle from "./LanguageToggle";
 import "./detay.css";
@@ -10,7 +10,6 @@ import "./detay.css";
 export default function OzelSayfa({ slug, initialSite, initialLocale = "tr" }: { slug: string; initialSite?: SiteConfig; initialLocale?: Locale }) {
   const [site, setSite] = useState<SiteConfig>(initialSite || defaultSiteConfig);
   const [locale, setLocale] = useState<Locale>(initialLocale);
-  useEffect(() => { fetch("/api/site").then(response => response.ok ? response.json() : null).then(data => data && setSite(normalizeSiteConfig(data))).catch(() => undefined); }, []);
   useEffect(() => { document.documentElement.lang = locale; }, [locale]);
   const display = localizeSiteConfig(site, locale);
   const page = display.customPages.find(item => item.slug === slug);
