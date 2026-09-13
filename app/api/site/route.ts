@@ -1,4 +1,6 @@
-import { defaultSiteConfig, normalizeSiteConfig } from "../../../lib/site-config";
+import { revalidateTag } from "next/cache";
+import { normalizeSiteConfig } from "../../../lib/site-config";
+import { getPublishedSiteConfig, SITE_CONFIG_CACHE_TAG } from "../../../lib/published-site-config";
 
 const ADMIN_EMAIL = "nurdivle72@gmail.com";
 
@@ -9,19 +11,7 @@ function supabaseConfig() {
 }
 
 export async function GET() {
-  const supabase = supabaseConfig();
-  if (!supabase) return Response.json(defaultSiteConfig);
-  try {
-    const response = await fetch(`${supabase.url}/rest/v1/site_settings?key=eq.portfolio&select=value`, {
-      headers: { apikey: supabase.key, Authorization: `Bearer ${supabase.key}` },
-      cache: "no-store",
-    });
-    if (!response.ok) throw new Error("Ayarlar okunamadı");
-    const rows = await response.json() as Array<{ value?: unknown }>;
-    return Response.json(rows[0]?.value ? normalizeSiteConfig(rows[0].value) : defaultSiteConfig);
-  } catch {
-    return Response.json(defaultSiteConfig);
-  }
+  return Response.json(await getPublishedSiteConfig());
 }
 
 export async function PUT(request: Request) {
@@ -42,6 +32,7 @@ export async function PUT(request: Request) {
       body: JSON.stringify([{ key: "portfolio", value: config, updated_at: new Date().toISOString() }]),
     });
     if (!saveResponse.ok) throw new Error("Ayarlar yazılamadı");
+    revalidateTag(SITE_CONFIG_CACHE_TAG, { expire: 0 });
     return Response.json(config);
   } catch {
     return Response.json({ error: "Ayarlar kaydedilemedi." }, { status: 400 });
