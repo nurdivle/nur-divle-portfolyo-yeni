@@ -9,7 +9,7 @@ export async function getPublishedSiteConfig(): Promise<SiteConfig> {
   try {
     const response = await fetch(`${url}/rest/v1/site_settings?key=eq.portfolio&select=value`, {
       headers: { apikey: key, Authorization: `Bearer ${key}` },
-      next: { revalidate: 300, tags: [SITE_CONFIG_CACHE_TAG] },
+      next: { revalidate: 86_400, tags: [SITE_CONFIG_CACHE_TAG] },
     });
     if (!response.ok) return defaultSiteConfig;
     const rows = await response.json() as Array<{ value?: unknown }>;
