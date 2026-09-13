@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useState, type CSSProperties } from "react";
-import { normalizeSiteConfig, type SiteConfig } from "../lib/site-config";
+import type { SiteConfig } from "../lib/site-config";
 import { localizeSiteConfig, type Locale, ui } from "../lib/i18n";
 import LanguageToggle from "./LanguageToggle";
 import "./theme-overrides.css";
@@ -12,7 +12,6 @@ import "./cv-overrides.css";
 export default function HomeClient({ initialSite, initialLocale = "en" }: { initialSite: SiteConfig; initialLocale?: Locale }) {
   const [site, setSite] = useState<SiteConfig>(initialSite);
   const [locale, setLocale] = useState<Locale>(initialLocale);
-  useEffect(() => { let active = true; fetch("/api/site").then(response => response.ok ? response.json() : null).then(data => { if (active && data) setSite(normalizeSiteConfig(data)); }).catch(() => undefined); return () => { active = false; }; }, []);
   useEffect(() => { document.documentElement.lang = locale; }, [locale]);
   const display = localizeSiteConfig(site, locale);
   const labels = ui[locale];
